@@ -188,7 +188,8 @@ for epoch in range(40):
         while not coord.should_stop():
             step += 1
             start_time = time.time()
-            _, loss_value, accuracy_value = sess.run([train_op, loss,accuracy_op], feed_dict={K.learning_phase(): 1}) #pass 1 for training, 0 for testing
+            #Note: model.updates needed to update the mean/variance in batchnorm layers
+            _, loss_value, accuracy_value,_ = sess.run([train_op, loss,accuracy_op, model.updates], feed_dict={K.learning_phase(): 1}) #pass 1 for training, 0 for testing
             total_loss+=loss_value
             duration = time.time() - start_time
             print 'Step %d: loss = %.2f, accuracy = %.1f%% (%.3f sec)' % (step, loss_value,accuracy_value*100.,duration)

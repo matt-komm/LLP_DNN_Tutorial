@@ -165,8 +165,8 @@ for ifile,fileName in enumerate(fileList):
         step = 0
         while not coord.should_stop():
             start_time = time.time()
-
-            loss_value,accuracy_value,_= sess.run([loss,accuracy_op,rootwriter_op], feed_dict={K.learning_phase(): 0}) #pass 1 for training, 0 for testing
+            #Note: model.updates needed to assign the loaded weights to the mean/variance in batchnorm layers
+            loss_value,accuracy_value,_,_= sess.run([loss,accuracy_op,rootwriter_op, model.updates], feed_dict={K.learning_phase(): 0}) #pass 1 for training, 0 for testing
             duration = time.time() - start_time
             if step % 100 == 0:
                 print 'Step %d: loss = %.2f, accuracy=%.1f%% (%.3f sec)' % (step, loss_value,accuracy_value*100.,duration)

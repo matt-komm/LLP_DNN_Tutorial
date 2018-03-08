@@ -75,12 +75,12 @@ for epoch in range(1):
             fileListQueue, 
             featureDict,
             "deepntuplizer/tree",
-            batch=1
-        ).batch() for _ in range(1)
+            batch=100
+        ).batch() for _ in range(4)
     ]
     print rootreader_op
     
-    batchSize = 1
+    batchSize = 1000
     minAfterDequeue = batchSize*2
     capacity = minAfterDequeue + 3 * batchSize
     
@@ -104,12 +104,10 @@ for epoch in range(1):
         while(True):
             t = time.time()
             result = sess.run(trainingBatch)
-            print result
+            #print result
             t = time.time()-t
             print "step %3i (%8.3fs)"%(steps,t)
             steps+=1
-            if (steps>10):
-                break
     except tf.errors.OutOfRangeError:
         print "done"
 
